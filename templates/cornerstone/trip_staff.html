@@ -1,0 +1,72 @@
+{% extends "cornerstone/base.html" %}{% load static from staticfiles %} {% block title %}Manage Trips{% endblock title %} {% block linkscript %}
+<link rel="stylesheet" href="{%static 'base/css/trip_staff.css'%}">
+<script src="{%static 'base/js/trip_staff.js'%}"></script>
+{% endblock linkscript %} {% block main %}
+<div class="container" style="padding: 6rem">
+    <div>
+        <h2 class="text-success">Active Trip List</h2>
+        <a href="/newtrip/" class="btn btn-primary pull-left ">&nbsp; New &nbsp;Trip&nbsp;</a>
+        <br><br>
+    </div>
+    <div>
+        <table class="table table-hover">
+            <thead>
+                <tr bgcolor='#26C6DA'>
+                    <th>No.</th>
+                    <th>ID</th>
+                    <th>Trip Name</th>
+                    <th>Driver</th>
+                    <th>Bus</th>
+                    <th>Seats</th>
+                    <th>School</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody id="tb">
+                {% for row in triplist %}
+                <tr id='{{row.id}}'>
+                    <td bgcolor='#26C6DA'>{{ forloop.counter }}</td>
+                    <td na='nid' name='tripid'>{{row.id}}</td>
+                    <td na='tripname'>{{row.trip_name}}</td>
+                    <td na='tripdriver'>{{row.trip_driver.driver_firstname}}&nbsp;{{row.trip_driver.driver_lastname}}</td>
+                    <td na='tripbus'>{{row.trip_bus.bus_number}}</td>
+                    <td na='tripbus'><span class="text-primary">{{row.trip_bus.bus_seats}}</span></td>
+                    <td na='triptime'>
+                        {% for key, value in row.trip_school.items %} {{key}} <span class="text-primary">({{value}})</span><br> {% endfor %}
+                    </td>
+                    {% if row.is_check %}
+                    <td na='tripstatus'><span class="text-success"><b>Confirm</b></span></td>
+                    <td>
+                        <a class="glyphicon glyphicon-ok icon edit-row" href="/confirmtrip/{{row.id}}/"></a>
+                    </td>
+                    {% else %}
+                    <td na='tripstatus'><span class="text-primary"><b>Active</b></span></td>
+                    <td>
+                        <a class="glyphicon glyphicon-remove icon del-row"></a>
+                    </td>
+                    {% endif %}
+
+                </tr>
+                {% empty %}
+                <span class="text-danger">Seems no trips available</span> {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Modal Delete-->
+<div class="modal fade" id="delmodal" tabindex="-1" role="dialog" aria-labelledby="mymodallable">
+    <div class="modal-dialog" role="document">
+        <div class="alert alert-warning" role="alert">
+            <h3>Are you sure?</h3>
+            <div>
+                <p>This operation will delete the selected item.</p>
+                <input style="display: none;" type="text" id="delnid" /></div>
+            <div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="delconfirm" type="button" class="btn btn-danger">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock main %}

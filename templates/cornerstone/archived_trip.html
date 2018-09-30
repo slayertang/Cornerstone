@@ -1,0 +1,90 @@
+{% extends "cornerstone/base.html" %}{% load static from staticfiles %} {% block title %}Archived Trip{% endblock title %} {% block linkscript %}
+<link rel="stylesheet" href="{%static 'base/css/bootstrap-datetimepicker.min.css'%}">
+<link rel="stylesheet" href="{%static 'base/css/archived_trip.css'%}">
+<script src="{%static 'base/js/bootstrap-datetimepicker.min.js'%}"></script>
+<script src="{%static 'base/js/archived_trip.js'%}"></script>
+{% endblock linkscript %} {% block main %}
+<div class="container" style="padding: 6rem">
+    <div>
+        <h2 class="text-success">Archived Trips</h2>
+        <br>
+    </div>
+    <form id="form1" action="/archivedtrip/" method="GET" enctype="multipart/form-data" target="myiframe">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="text-success"> <span class="text-primary">Start Time<span class="text-danger">*</span></label>
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input id="start" type='text' class="form-control" name="starttime" required/>
+                        <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="text-success"> <span class="text-primary">End Time<span class="text-danger">*</span></label>
+                    <div class='input-group date' id='datetimepicker2'>
+                        <input id="end" type='text' class="form-control" name="endtime" required>
+                        <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="text-deafult">Student name (optional)</label>
+                    <div class='form-group'>
+                        <input id="student" type='text' class="form-control" name="studentname">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <label class=""> <span class="">&nbsp;</label>
+                <div>
+                    <input type="submit" id="search" type="button" class="btn btn-primary btn-block" value="Search">
+                </div>
+            </div>
+        </div>
+    </form>
+    <div>
+        {% for k, v in key.items %} {% if k and v %}
+        <span class="text-danger">{{k}}: </span><span class="text-primary">{{v}}&nbsp;&nbsp;&nbsp;</span> {% endif %} {% empty %}
+        <span class="text-danger">Last month's trips</span> {% endfor %}
+        <span class="text-success">Found {{triplist | length}} items.</span>
+        <table class="table table-hover">
+            <thead>
+                <tr bgcolor='#ABB2B9'>
+                    <th>No.</th>
+                    <th>ID</th>
+                    <th>Trip Name</th>
+                    <th>Driver</th>
+                    <th>Bus</th>
+                    <th>Students</th>
+                    <th>Status</th>
+                    <th>Detail</th>
+                </tr>
+            </thead>
+            <tbody id="tb">
+                {% for row in triplist %}
+                <tr id='{{row.id}}'>
+                    <td bgcolor='#ABB2B9'>{{ forloop.counter }}</td>
+                    <td na='nid' name='tripid'>{{row.id}}</td>
+                    <td na='tripname'>{{row.trip_name}}</td>
+                    <td na='tripdriver'>{{row.trip_driver.driver_firstname}}&nbsp;{{row.trip_driver.driver_lastname}}</td>
+                    <td na='tripbus'>{{row.trip_bus.bus_number}}<span class="text-primary"> ({{row.trip_bus.bus_seats}})</span></td>
+                    <td>Attend: <span class="text-primary">{{row.trip_kids.all | length}}</span></td>
+                    <td na='tripstatus'><span class="text-muted"><b>Archived</b></span></td>
+                    <td>
+                        <a class="glyphicon glyphicon-zoom-in icon edit-row" href="/editarchivedtrip/{{row.id}}/"></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- <iframe id="myiframe" name="myiframe" style='display: none;'></iframe> -->
+</div>
+{% endblock main %}

@@ -1,0 +1,119 @@
+{% extends "cornerstone/base.html" %}{% load static from staticfiles %} {% block title %}Confirm Trip{% endblock title %} {% block linkscript %}
+<link rel="stylesheet" href="{%static 'base/css/bootstrap-select.min.css'%}">
+<link rel="stylesheet" href="{%static 'base/css/confirm_trip.css'%}">
+<script src="{%static 'base/js/bootstrap-select.min.js'%}"></script>
+<script src="{%static 'base/js/confirm_trip.js'%}"></script> {% endblock linkscript %} {% block main %}
+<div class="container" style="padding: 6rem">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <!-- <h5 class="text-danger">Confirm trip</h5> -->
+            <h3 class="text-success">Confirm trip</h3>
+            <!-- <h4 class="text-success">Date Create: {{trip.date_joined | date:'Y-m-d l'}}</h4> -->
+            <hr>
+            <label id="tripname" nid='{{trip.id}}' class="text-info">Trip Name:</label>&nbsp;&nbsp;<span>{{trip.trip_name}}</span>
+            <br>
+            <label class="text-info">Bus:</label>&nbsp;&nbsp;<span>{{trip.trip_bus}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <label class="text-info">Seats:</label>&nbsp;&nbsp;<span id="seats">{{trip.trip_bus.bus_seats}}</span>
+            <br>
+            <label class="text-info">Driver:</label>&nbsp;&nbsp;<span>{{trip.trip_driver.driver_firstname}}&nbsp;{{trip.trip_driver.driver_lastname}}</span>
+            <br>
+            <label class="text-danger">Last edit:</label>&nbsp;&nbsp;<span>{{trip.date_changed | date:'Y-m-d'}}</span>
+            <br>
+        </div>
+        <div class="col-sm-8 col-sm-offset-2">
+            <table class="table table-hover table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>School</th>
+                        <th>Student name</th>
+                        <th>Status</th>
+                        <th>Change Edit</th>
+                    </tr>
+                </thead>
+                <tbody id="tb">
+                    {% for student in trip.trip_kids.all %}
+                    <tr id="{{student.id}}">
+                        <td na='id'>{{student.id}}</td>
+                        <td na='school'>{{student.child_school}}</td>
+                        <td na='name'>{{student.child_firstname}} {{student.child_lastname}}</td>
+                        <td>
+                            <b><span class="text-success">Attended</span></b>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary btn-block edit-row1" role="button">Change?</a>
+                        </td>
+                    </tr>
+                    {% endfor %} {% for key, value in trip.absent_kids.items %}
+                    <tr id="{{key}}">
+                        <td na='id'>{{key}}</td>
+                        <td na='school'>{{value.2}}</td>
+                        <td na='name'>{{value.0}} {{value.1}}</td>
+                        <td>
+                            <b><span class="text-danger">{{value.3}}</span></b>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary btn-block edit-row2" role="button">Change?</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-4 col-sm-offset-4">
+            <hr>
+            <a href="/checktripsave/{{trip.id}}/" id="savebutton" role="button" class="btn btn-success btn-lg btn-block">Confirm&nbsp;&nbsp;Trip</a>
+            <!-- <button id="savebutton" type="button" class="btn btn-success btn-lg btn-block">Confirm&nbsp;&nbsp;Trip</button> -->
+        </div>
+    </div>
+</div>
+<!-- edit modal -->
+<div class="modal fade" id="editmodal" nid='{{trip.id}}' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title text-info" id="myModalLabel">Trip Edit</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="id" class="col-sm-2 control-label">ID</label>
+                        <div class="col-sm-8">
+                            <input disabled type="text" class="form-control" id="nid">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="id" class="col-sm-2 control-label">School</label>
+                        <div class="col-sm-8">
+                            <input disabled type="text" class="form-control" id="school">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="id" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-8">
+                            <input disabled type="text" class="form-control" id="sname">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="id" class="col-sm-2 control-label">Status</label>
+                        <div class="col-sm-8">
+                            <label class="radio-inline text-info"><input type="radio" name="status" value="Attended">Attended</label>
+                            <br>
+                            <label class="radio-inline text-danger"><input type="radio" name="status" value="Absent">Absent</label>
+                            <label class="radio-inline text-danger"><input type="radio" name="status" value="Sick">Sick</label>
+                            <label class="radio-inline text-danger"><input type="radio" name="status" value="Cancel">Cancel</label>
+                            <label class="radio-inline text-danger"><input type="radio" name="status" value="School office">School office</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel" type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                <button id="submit" type="button" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>
+{% endblock main %}

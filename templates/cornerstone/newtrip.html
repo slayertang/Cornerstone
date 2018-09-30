@@ -1,0 +1,95 @@
+{% extends "cornerstone/base.html" %}{% load static from staticfiles %} {% block title %}New Trip{% endblock title %} {% block linkscript %}
+<link rel="stylesheet" href="{%static 'base/css/bootstrap-datetimepicker.min.css'%}">
+<link rel="stylesheet" href="{%static 'base/css/newtrip.css'%}">
+<link rel="stylesheet" href="{%static 'base/css/bootstrap-select.min.css'%}">
+<script src="{%static 'base/js/bootstrap-datetimepicker.min.js'%}"></script>
+<script src="{%static 'base/js/bootstrap-select.min.js'%}"></script>
+<script src="{%static 'base/js/newtrip.js'%}"></script>
+{% endblock linkscript %} {% block main %}
+<div class="container" style="padding: 6rem;">
+    <div>
+        <h2 class="text-success">New Trip for:&nbsp;&nbsp;<small id="date" class="text-primary">{{date}}</small></h2>
+        <hr>
+    </div>
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <table class="table table-hover table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>School Name</th>
+                        <th>Pickup Time</th>
+                        <th>Kids left</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                <tbody id="tb">
+                    {% for row in schoollist %}
+                    <tr id='{{row.id}}'>
+                        <td na='nid'>{{row.id}}</td>
+                        <td na='name'>{{row.school_name}}</td>
+                        <td na='pickuptime'>{{row.pickup_time}}</td>
+                        <td na='count' class="text-primary">{{row.num}}</td>
+                        <td na='counter'>
+                            <select class="selectpicker" data-width="100%" title="">
+                            </select>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <p class="text-danger">Seems all schools got their own trips.</p>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div id="tips">
+                <p class="text-info">Selected Schools Tips:</p>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <!-- <div class="col-sm-3 col-sm-offset-1">
+            <div class="form-group">
+                <label class="text-success"> <span class="text-success">Select Time</span></label>
+                <div class='input-group date' id='datetimepicker1'>
+                    <input id="timeinput" type='text' class="form-control" required/>
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div> -->
+        <div class="col-sm-3 col-sm-offset-2">
+            <label class="text-success">Select Bus<span class="text-danger">*</span></label> <br>
+            <div class="form-group">
+                <select id="bus" class="selectpicker" data-width="100%" title="Bus Number">
+                    {% for bus in buslist %}
+                    <option bid="{{bus.id}}">{{bus.bus_number}}--{{bus.bus_seats}}</option>
+                    {% empty %}
+                    <span>None available</span>
+                    {% endfor %}
+                </select>
+                <span id="bustip" class="text-danger" hidden>The Bus field is required.</span>
+            </div>
+        </div>
+        <div class="col-sm-3 col-sm-offset-1">
+            <label class="text-success">Select Driver<span class="text-danger">*</span></label> <br>
+            <div class="form-group">
+                <select id="driver" class="selectpicker" data-width="100%" title="Driver Name">
+                    {% for driver in driverlist %}
+                    <option did="{{driver.id}}">{{driver.driver_firstname}} {{driver.driver_lastname}}</option>
+                    {% empty %}
+                    <span>None available</span>
+                    {% endfor %}
+                    </select>
+                <span id="drivertip" class="text-danger" hidden>The Driver field is required.</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-4 col-sm-offset-4">
+        <button id="create" type="button" class="btn btn-primary btn-block">Create</button>
+    </div>
+</div>
+</div>
+{% endblock main %}

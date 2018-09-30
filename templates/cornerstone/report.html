@@ -1,0 +1,70 @@
+{% extends "cornerstone/base.html" %}{% load static from staticfiles %} {% block title %}Report{% endblock title %} {% block linkscript %}
+<link rel="stylesheet" href="{%static 'base/css/bootstrap-datetimepicker.min.css'%}">
+<link rel="stylesheet" href="{%static 'base/css/report.css'%}">
+<link rel="stylesheet" href="{%static 'base/css/bootstrap-select.min.css'%}">
+<script src="{%static 'base/js/bootstrap-datetimepicker.min.js'%}"></script>
+<script src="{%static 'base/js/bootstrap-select.min.js'%}"></script>
+<script src="{%static 'base/js/report.js'%}"></script> {% endblock linkscript %} {% block main %}
+<div class="container" style="padding: 6rem;">
+    <div>
+        <h2 class="text-success">Attendance Report</h2>
+        <hr>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="form-group">
+                <label class="text-success"> <span class="text-primary">Start Time<span class="text-danger">*</span></label>
+                <div class='input-group date' id='datetimepicker1'>
+                    <input id="start" type='text' class="form-control" />
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <span id="starttip" class="text-danger" hidden>The start time field is required.</span>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
+                <label class="text-success"> <span class="text-primary">End Time<span class="text-danger">*</span></label>
+                <div class='input-group date' id='datetimepicker2'>
+                    <input id="end" type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                <span id="endtip" class="text-danger" hidden>The end time field is required.</span>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <label class=""> <span class="">&nbsp;</label>
+            <div>
+                <button id="search" type="button" class="btn btn-success btn-block">Search</button>
+            </div>
+        </div>
+        <div id="downloaddiv" class="col-sm-2 col-sm-offset-2" hidden>
+            <label class=""> <span class="">&nbsp;</label>
+            <div>
+                <button id="download" type="button" class="btn btn-primary btn-block">Download Report</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="note">
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr bgcolor='#80DEEA'>
+                    <th>No.</th>
+                    <th>ID</th>
+                    <th>Trip name</th>
+                    <th>School</th>
+                    <th>Last changed</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="tb" bgcolor='#E3F2FD'>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock main %}

@@ -1,0 +1,85 @@
+{% extends "cornerstone/base.html" %}{% load static from staticfiles %} {% block title %}Edit Trip{% endblock title %} {% block linkscript %}
+<link rel="stylesheet" href="{%static 'base/css/edit_trip.css'%}">
+<script src="{%static 'base/js/edit_trip.js'%}"></script>
+{% endblock linkscript %} {% block main %}
+<div class="container" style="padding: 6rem">
+    <h3 class="text-success">Trip Detail</h3>
+    <hr>
+    <div class="row">
+        <div class="col-sm-4">
+            <label class="text-info">Trip Name:</label>&nbsp;&nbsp;<span>{{trip.trip_name}}</span>
+            <hr>
+            <label class="text-info">Trip Time:</label>&nbsp;&nbsp;<span>{{trip.trip_time}}</span>
+            <hr>
+            <label class="text-info">Bus:</label>&nbsp;&nbsp;<span>{{trip.trip_bus}}</span>
+            <hr>
+            <label class="text-info">Driver:</label>&nbsp;&nbsp;<span>{{trip.trip_driver.driver_firstname}}&nbsp;{{trip.trip_driver.driver_lastname}}</span>
+            <hr>
+            <label class="text-danger">Seats:</label>&nbsp;<span id="seats">{{trip.trip_bus.bus_seats}}</span>&nbsp;&nbsp;<label class="text-danger">Students:</label>&nbsp;<span id="students">{{trip.trip_kids.all | length}}</span>
+        </div>
+        <div class="col-sm-6 col-sm-offset-1">
+            <span class="text-danger"><span class="fa fa-warning"></span>&nbsp;Please make sure the bus has enough seats before adding.</span><button id="add" type="button" class="btn btn-default pull-right"><span class="glyphicon glyphicon-plus text-primary" aria-hidden="true"></span> New</button>
+            <table class="table table-hover table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Student</th>
+                        <th>School</th>
+                        <th>Operation</th>
+                    </tr>
+                </thead>
+                <tbody id="tb">
+                    {% for student in trip.trip_kids.all %}
+                    <tr id="{{student.id}}">
+                        <td>{{student.id}}</td>
+                        <td>{{student.child_firstname}} {{student.child_lastname}}</td>
+                        <td>{{student.child_school}}</td>
+                        <td>
+                            <a class="glyphicon glyphicon-remove icon del-row"></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- modal delete -->
+<!-- <div class="modal fade" id="delmodal" tabindex="-1" role="dialog" aria-labelledby="mymodallable">
+    <div class="modal-dialog" role="document">
+        <div class="alert alert-warning" role="alert">
+            <h3>Are you sure?</h3>
+            <div>
+                <p>This operation will delete the selected item.</p>
+                <input style="display: none;" type="text" id="delnid">
+                <span style="display: none;" id="delnid1">{{trip.id}}</span>
+            </div>
+            <div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="delconfirm" type="button" class="btn btn-danger">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- modal add-->
+<!-- <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title text-info" id="myModalLabel">Add Students</h4>
+                <h5 class="text-success">Pickup Time: {{trip.trip_time}}</h5>
+            </div>
+            <div id="studentslist" nid="{{trip.id}}" class="modal-body">
+                {% for student in untripstudents %}
+                <input type="checkbox" class="form-check-input" value="{{student.id}}">{{student.child_firstname}} {{student.child_lastname}} <span class="text-info">({{student.child_school}})</span><br> {% empty %}
+                <span class="text-danger">None available</span> {% endfor %}
+            </div>
+            <div class="modal-footer">
+                <button id="cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button id="submit" type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+{% endblock main %}

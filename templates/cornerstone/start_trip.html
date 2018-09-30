@@ -1,0 +1,62 @@
+{% extends "cornerstone/base.html" %}{% load static from staticfiles %} {% block title %} My Trip{% endblock title %} {% block linkscript %}
+<link rel="stylesheet" href="{%static 'base/css/bootstrap-select.min.css'%}">
+<link rel="stylesheet" href="{%static 'base/css/start_trip.css'%}">
+<script src="{%static 'base/js/bootstrap-select.min.js'%}"></script>
+<script src="{%static 'base/js/start_trip.js'%}"></script> {% endblock linkscript %} {% block main %}
+<div class="container" style="padding: 6rem">
+    <h3 class="text-success">Trip Prpcessing</h3>
+    <hr>
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <label id="tripname" nid='{{trip.id}}' class="text-info">Trip Name:</label>&nbsp;&nbsp;<span>{{trip.trip_name}}</span>
+            <br>
+            <label class="text-info">Bus:</label>&nbsp;&nbsp;<span>{{trip.trip_bus}}</span>&nbsp;&nbsp;<label class="text-primary">Seats:</label>&nbsp;<span id="seats">{{trip.trip_bus.bus_seats}}</span>
+            <br>
+            <label class="text-info">Driver:</label>&nbsp;&nbsp;<span>{{trip.trip_driver.driver_firstname}}&nbsp;{{trip.trip_driver.driver_lastname}}</span>
+            <br>
+            <label class="text-danger">Students:</label>&nbsp;<span id="students">
+                {% for k, v in trip.trip_school.items %}
+                <span class="text-primary school" value='{{k}}:{{v}}'>{{k}}: {{v}},&nbsp;&nbsp;</span> {% endfor %}
+            </span>
+            <hr>
+        </div>
+        <div class="col-sm-8 col-sm-offset-2">
+            <table class="table table-hover table-condensed table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>School</th>
+                        <th>Student name</th>
+                        <th class="text-success">Attendance</th>
+                        <th class="text-danger">Absence</th>
+                    </tr>
+                </thead>
+                <tbody id="tb">
+                    {% for school in schoollist %} {% for student in school.child_set.all %} {% if not student.is_check%}
+                    <tr id="{{student.id}}">
+                        <td>{{student.id}}</td>
+                        <td na="{{student.child_school}}" style="color:white" bgcolor=''><b>{{student.child_school}}</b></td>
+                        <td class="text-info"><b>{{student.child_firstname}} {{student.child_lastname}}</b></td>
+                        <td>
+                            <button type="button" data-toggle="button" class="btn btn-info btn-block attend">Confirm?</button>
+                        </td>
+                        <td>
+                            <select class="selectpicker absent" title="Null" data-style="btn-danger" data-width="120px">
+                                <option>Absent</option>
+                                <option>Sick</option>
+                                <option>School office</option>
+                                <option>Cancel</option>
+                            </select>
+                        </td>
+                    </tr>
+                    {% endif %} {% endfor %} {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-4 col-sm-offset-4">
+            <hr>
+            <button id="savebutton" type="button" class="btn btn-primary btn-lg btn-block">Save Attendance</button>
+        </div>
+    </div>
+</div>
+{% endblock main %}

@@ -1,0 +1,41 @@
+{% extends "cornerstone/base.html" %}{% load static from staticfiles %} {% block title %}My Trip{% endblock title %} {% block linkscript %}
+<link rel="stylesheet" href="{%static 'base/css/trip_driver.css'%}">
+<script src="{%static 'base/js/trip_driver.js'%}"></script> {% endblock linkscript %} {% block main %}
+<div class="container row" style="padding: 6rem">
+    <h2 class="text-success">Today's Trip List</h2>
+    <hr>
+    <div class="col-sm-8 col-sm-offset-2">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Trip Name</th>
+                    <th>Driver</th>
+                    <th>Bus</th>
+                    <th>Seats</th>
+                    <th>School</th>
+                    <th>Status</th>
+                    <th>Operation</th>
+                </tr>
+            </thead>
+            <tbody id="tb">
+                {% for row in triplist %}
+                <tr nid='{{row.id}}'>
+                    <td na='nid'>{{row.id}}</td>
+                    <td na='tripname'>{{row.trip_name}}</td>
+                    <td na='tripdriver'>{{row.trip_driver.driver_firstname}}&nbsp;{{row.trip_driver.driver_lastname}}</td>
+                    <td na='tripbus'>{{row.trip_bus.bus_number}}</td>
+                    <td na='triptime'><span class="text-primary">{{row.trip_bus.bus_seats}}</span></td>
+                    <td na='tripkids' id="tripkids">
+                        {% for key, value in row.trip_school.items %} {{key}} <span class="text-primary">({{value}})</span><br> {% endfor %}
+                    </td>
+                    <td na='tripstatus'><span class="text-primary"><b>Active</b></span></td>
+                    <td><a href="/starttrip/{{row.id}}/"><button type="button" class="btn btn-primary btn-sm btn-block">Start</button></a></td>
+                </tr>
+                {% empty %}
+                <span class="text-warning">Sorry,no trips available today.</span> {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock main %}

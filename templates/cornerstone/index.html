@@ -1,0 +1,14 @@
+{% extends "cornerstone/base.html" %}{% load static from staticfiles %}{% block title %} Index {% endblock title %} {% block linkscript %} {% endblock linkscript %} {% block main %}
+<div style="padding-top: 5rem; text-align:center;">
+    <div class="jumbotron">
+        {% if request.session.islogin %}
+        <h2>Hello, <span class="text-primary">{{request.session.name}} </span></h2>
+        <h1>Welcome Back!</h1>
+        {% else %}
+        <h1>Hello, Welcome!</h1>
+        <p>please login</p>
+        <p><a class="btn btn-primary btn-lg" href="/login/" role="button">&nbsp;Login&nbsp;</a></p>
+        {% endif %}
+    </div>
+</div>
+<br><br><br> {% endblock main %}
