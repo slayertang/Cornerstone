@@ -25,9 +25,12 @@ function displayOptions() {
 };
 
 function tips() {
+    var total = 0;
+    $('#total').text(total);
     // 添加对于所有select改变的监测事件；
     $("#tb tr td select").each(function() {
         $(this).on('change', function() {
+            total = 0;
             var num = $(this).val();
             var sname = $(this).parent().parent().prev().prev().prev().text();
             var sid = $(this).parent().parent().parent().attr('id');
@@ -36,20 +39,19 @@ function tips() {
             // 添加前先判断是否有class值为该学校id的p标签，若有，先删除再添加;
             $('#tips p').remove('.' + sid);
             if (Number(num) > 0) {
+                $('#' + sid).addClass('info')
                 $('#tips').append("<p class='text-danger " + sid + "'" + "sid=" + sid + ">" + sname + ": " + num + "</p>");
+            } else {
+                $('#' + sid).removeClass();
             };
+            $('#tips p').each(function() {
+                var n = Number($(this).text().split(':')[1]);
+                total += n;
+            });
+            // console.log(total);
+            $('#total').text(total);
         });
     });
-    // $('#driver').on('change', function() {
-    //     var dname = $(this).val();
-    //     var did = $(this).find('option:selected').attr('did');
-    //     console.log(did, dname);
-    // });
-    // $('#bus').on('change', function() {
-    //     var bname = $(this).val().split('--')[0];
-    //     var bid = $(this).find('option:selected').attr('bid');
-    //     console.log(bid, bname);
-    // });
 };
 
 function submit() {

@@ -6,6 +6,16 @@
 <script src="{%static 'base/js/bootstrap-select.min.js'%}"></script>
 <script src="{%static 'base/js/newtrip.js'%}"></script>
 {% endblock linkscript %} {% block main %}
+<div>
+    <div class="panel panel-primary" id="tip">
+        <div class="panel-heading"><b>School Selecting</b></div>
+        <div class="panel-body" id="tips">
+        </div>
+        <hr>
+        <div class="panel-body">Total of student:&nbsp;&nbsp;<span id="total" class="text-primary"></span>
+        </div>
+    </div>
+</div>
 <div class="container" style="padding: 6rem;">
     <div>
         <h2 class="text-success">New Trip for:&nbsp;&nbsp;<small id="date" class="text-primary">{{date}}</small></h2>
@@ -13,7 +23,7 @@
     </div>
     <div class="row">
         <div class="col-sm-8 col-sm-offset-2">
-            <table class="table table-hover table-condensed table-bordered">
+            <table class="table table-condensed table-bordered">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -29,7 +39,7 @@
                         <td na='nid'>{{row.id}}</td>
                         <td na='name'>{{row.school_name}}</td>
                         <td na='pickuptime'>{{row.pickup_time}}</td>
-                        <td na='count' class="text-primary">{{row.num}}</td>
+                        <td na='count' class="text-default">{{row.num}}</td>
                         <td na='counter'>
                             <select class="selectpicker" data-width="100%" title="">
                             </select>
@@ -40,9 +50,9 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <div id="tips">
+            <!-- <div id="tips">
                 <p class="text-info">Selected Schools Tips:</p>
-            </div>
+            </div> -->
         </div>
     </div>
     <hr>

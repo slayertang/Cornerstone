@@ -7,3 +7,10 @@
     vertical-align: middle;
     text-align: center;
 }
+
+#tip {
+    width: 200px;
+    position: fixed;
+    top: 150px;
+    right: 5px;
+}
