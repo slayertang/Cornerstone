@@ -1,0 +1,44 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+.body {
+    min-height: 100%;
+}
+
+.content {
+    padding-top: 60px;
+    /* background: rgba(255, 255, 255, 0.8); */
+}
+
+.footer {
+    position: relative;
+    background: rgba(27, 27, 27, 0.7);
+    padding-bottom: 5px;
+}
+
+.address {
+    padding-left: 50px;
+    padding-top: 10px;
+    color: whitesmoke;
+}
+
+#copy {
+    text-align: center;
+    color: whitesmoke;
+}
+
+body {
+    /* background-image: url(/static/base/img/bg1.jpg); */
+    background-position: center 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -ms-background-size: cover;
+}

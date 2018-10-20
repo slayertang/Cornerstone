@@ -1,16 +1,18 @@
 {% extends "cornerstone/base.html" %}{% load static from staticfiles %} {% block title %} Students Info{% endblock title %} {% block linkscript %}
 <link rel="stylesheet" href="{%static 'base/css/children.css'%}">
 <script src="{%static 'base/js/children.js'%}"></script> {% endblock linkscript %} {% block main %}
-<div class="container" style="padding: 6rem">
+<div class="container">
     <div class="">
-        <h2 class="text-success">Children List</h2>
-        <a class="btn btn-primary pull-right" id="addbtn" data-toggle="modal" data-target="#addmodal">New Student</a>
+        <h2 class="text-success ">Children List</h2>
+        <a href="" class="pull-left" id="addbtn" data-toggle="modal" data-target="#addmodal">
+            <h4>Create New</h4>
+        </a>
         <br><br>
     </div>
     <div class="">
-        <table class="table table-hover">
+        <table class="table table-hover table-bordered table-dark">
             <thead>
-                <tr bgcolor='#66BB6A'>
+                <tr class="success">
                     <th>No.</th>
                     <th>ID</th>
                     <th>First Name</th>
@@ -22,36 +24,36 @@
             </thead>
             <tbody id="tb">
                 {% for row in child_list %}
-                <tr id='{{row.id}}'>
-                    <td bgcolor='#66BB6A'>{{ forloop.counter }}</td>
+                <tr id='{{row.id}}' class="active">
+                    <td>{{ forloop.counter }}</td>
                     <td na='nid'>{{row.id}}</td>
                     <td na='firstname'>{{row.child_firstname}}</td>
                     <td na='lastname'>{{row.child_lastname}}</td>
                     <td na='school'>{{row.child_school.school_name}}</td>
                     {% if row.is_active %} {% if row.on_trip and not row.is_check %}
-                    <td na='status' bgcolor='#FFB74D'>
-                        <span style="color:white">Boarding</span>
+                    <td na='status'>
+                        <span class="text-success">Boarding</span>
                     </td>
                     <td>
                         <a class="glyphicon glyphicon-lock del-row" disabled></a>
                     </td>
                     {% endif %} {% if row.on_trip and row.is_check %}
-                    <td na='status' bgcolor='#E57373'>
-                        <a href="" class="linktrip"><span style="color:white">Marked</span></a>
+                    <td na='status'>
+                        <span class="text-warning">Marked</span>
                     </td>
                     <td>
-                        <a class="glyphicon glyphicon-lock del-row" disabled></a>
+                        <a href="" class="glyphicon glyphicon-zoom-in linktrip">trip</a>
                     </td>
                     {% endif %} {% if not row.on_trip and not row.is_check%}
-                    <td na='status' bgcolor='#F7F9F9'>
-                        <span style="color:blue">Standby</span>
+                    <td na='status'>
+                        <span class="text-primary">Standby</span>
                     </td>
                     <td>
-                        <a class="glyphicon glyphicon-remove icon del-row" data-toggle="modal" data-target="#delmodal"></a>
+                        <a href="" class="glyphicon glyphicon-remove icon del-row" data-toggle="modal" data-target="#delmodal"></a>
                     </td>
                     {% endif %} {% else %}
-                    <td na='status' bgcolor='#78909C'>
-                        <span style="color:white">Checked</span>
+                    <td na='status'>
+                        <span class="text-muted">Checked</span>
                     </td>
                     <td>
                         <a class="glyphicon glyphicon-lock del-row" disabled></a>
@@ -71,10 +73,10 @@
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">x</span>
             </button>
-                <h4 class="modal-title" id="mymodallable">Create kids</h4>
+                <h4 class="modal-title" id="mymodallable">New Student</h4>
             </div>
             <div class="modal-body">
-                <form action="" id="addform" class="form-horizontal">
+                <form action=" " id="addform" class="form-horizontal">
                     <div class="form-group">
                         <label for="firstname" class="col-sm-3 control-label">First Name</label>
                         <div class="col-sm-7">
@@ -93,21 +95,6 @@
                             <input type="text" class="form-control required" required name="school" id="addschool" placeholder="school name">
                         </div>
                     </div>
-                    <!-- <div class="form-group">
-                        <label for="status" class="col-sm-3 control-label ">Status</label>
-                        <div class="col-sm-7">
-                            <label class="radio-inline">
-                            <input type="radio" name="addisactive" value="1" id="addstandby">Standby</label>
-                            <label class="radio-inline">
-                            <input type="radio"  name="addisactive" value="0" id="addcancel">Cancel</label>
-                        </div>
-                    </div>
-                    <div class="form-group" id="addpicktime">
-                        <label for="picktime" class="col-sm-3 control-label">Pick Time</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control" name="addpicktime" placeholder="Example: 0:00">
-                        </div>
-                    </div> -->
                     <div class="modal-footer">
                         <span id="errormsg" style="color: red;"></span>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -129,67 +116,6 @@
             <div>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 <button id="delconfirm" type="button" class="btn btn-danger">Confirm</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal change -->
-<div class="modal fade" id='changemodal' tabindex="-1" role="dialog" aria-labelledby="mymodallable" data-backdrop="static">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">x</span>
-                </button>
-                <h4 class="modal-title" id="mymodallable">Edit kids</h4>
-            </div>
-            <div class="modal-body">
-                <form action="" id="chform" class="form-horizontal">
-                    <div class="form-group">
-                        <label for="id" class="col-sm-3 control-label">ID</label>
-                        <div class="col-sm-7">
-                            <input disabled type="text" class="form-control" id="chid" name="chid" placeholder="ID">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="firstname" class="col-sm-3 control-label">First Name</label>
-                        <div class="col-sm-7">
-                            <input disabled type="text" class="form-control" id="chfirstname" name="firstname" placeholder="first name">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="lastname" class="col-sm-3 control-label">Last Name</label>
-                        <div class="col-sm-7">
-                            <input disabled type="text" class="form-control" id="chlastname" name="lastname" placeholder="last name">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="school" class="col-sm-3 control-label">School</label>
-                        <div class="col-sm-7">
-                            <input disabled type="text" class="form-control" id="chschool" name="school" placeholder="school name">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="firstname" class="col-sm-3 control-label">Status</label>
-                        <div class="col-sm-7">
-                            <label class="radio-inline">
-                                <input type="radio" name="chisactive" value="1" id="chstandby">Standby</label>
-                            <label class="radio-inline">
-                                <input type="radio"  name="chisactive" value="0" id="chcancel">Cancel</label>
-                        </div>
-                    </div>
-                    <div class="form-group" id="chpicktime">
-                        <label for="picktime" class="col-sm-3 control-label">Pick Time</label>
-                        <div class="col-sm-7">
-                            <input type="text" class="form-control" name="chpicktime" placeholder="Example: 0:00">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <span id="errorMsg" style="color: red;"></span>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <input type="submit" name="" id="editsave" class="btn btn-primary">
-                    </div>
-                </form>
             </div>
         </div>
     </div>

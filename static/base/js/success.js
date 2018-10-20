@@ -13,7 +13,7 @@ $(document).ready(function() {
         // console.log(scroll);
         // console.log(footer);
         var bottomD = browserH - (h + topH - scroll) - footer - 60;
-        console.log(bottomD);
+        // console.log(bottomD);
         $('.content').css('padding-bottom', bottomD);
     };
 })

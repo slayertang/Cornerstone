@@ -4,7 +4,7 @@
 <script src="{%static 'base/js/bootstrap-datetimepicker.min.js'%}"></script>
 <script src="{%static 'base/js/archived_trip.js'%}"></script>
 {% endblock linkscript %} {% block main %}
-<div class="container" style="padding: 6rem">
+<div class="container">
     <div>
         <h2 class="text-success">Archived Trips</h2>
         <br>
@@ -50,13 +50,14 @@
         </div>
     </form>
     <div>
-        {% for k, v in key.items %} {% if k and v %}
-        <span class="text-danger">{{k}}: </span><span class="text-primary">{{v}}&nbsp;&nbsp;&nbsp;</span> {% endif %} {% empty %}
-        <span class="text-danger">Last month's trips</span> {% endfor %}
-        <span class="text-success">Found {{triplist | length}} items.</span>
-        <table class="table table-hover">
+        {% if leng %} {% for k, v in key.items %}
+        <span class="text-danger">{{k}}: </span><span class="text-primary">{{v}}&nbsp;&nbsp;&nbsp;</span> {% endfor %}
+        <span class="text-primary">Found {{leng}} items.</span> {% else %}
+        <span class="text-danger">Last month's trips</span>
+        <span class="text-primary">Found {{triplist | length}} items.</span> {% endif %}
+        <table class="table table-hover table-bordered">
             <thead>
-                <tr bgcolor='#ABB2B9'>
+                <tr class="info">
                     <th>No.</th>
                     <th>ID</th>
                     <th>Trip Name</th>
@@ -69,13 +70,13 @@
             </thead>
             <tbody id="tb">
                 {% for row in triplist %}
-                <tr id='{{row.id}}'>
-                    <td bgcolor='#ABB2B9'>{{ forloop.counter }}</td>
+                <tr id='{{row.id}}' class="active">
+                    <td>{{ forloop.counter }}</td>
                     <td na='nid' name='tripid'>{{row.id}}</td>
                     <td na='tripname'>{{row.trip_name}}</td>
                     <td na='tripdriver'>{{row.trip_driver.driver_firstname}}&nbsp;{{row.trip_driver.driver_lastname}}</td>
-                    <td na='tripbus'>{{row.trip_bus.bus_number}}<span class="text-primary"> ({{row.trip_bus.bus_seats}})</span></td>
-                    <td>Attend: <span class="text-primary">{{row.trip_kids.all | length}}</span></td>
+                    <td na='tripbus'>{{row.trip_bus.bus_number}} <span class="badge">{{row.trip_bus.bus_seats}}</span></td>
+                    <td>Attend: <span class="label label-success">{{row.trip_kids.all | length}}</span></td>
                     <td na='tripstatus'><span class="text-muted"><b>Archived</b></span></td>
                     <td>
                         <a class="glyphicon glyphicon-zoom-in icon edit-row" href="/editarchivedtrip/{{row.id}}/"></a>

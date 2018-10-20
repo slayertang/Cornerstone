@@ -1,0 +1,7 @@
+.content {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+body {
+    background-image: url(/static/base/img/main.jpg);
+}

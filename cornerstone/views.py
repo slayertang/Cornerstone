@@ -179,10 +179,27 @@ def schoolinfo(request):
     if request.session.get('isstaff', None):
         schoolList = School.objects.values(
             'id', 'school_name', 'pickup_time').annotate(num=Count('child'))
-        # schoolList = School.objects.values('id', 'school_name', 'pickup_time').filter(child__on_trip=False).annotate(num=Count('child'))
+        # schoolList = School.objects.values('id', 'school_name', 'pickup_time').filter(
+        #     child__is_delete=False).annotate(num=Count('child'))
         return render(request, 'cornerstone/school.html', {'schoollist': schoolList})
     else:
         return render(request, 'cornerstone/404.html')
+
+
+def studentinschool(request):
+    response = {'status': True, 'message': None, 'data': None}
+    try:
+        sid = int(request.GET.get('sid'))
+        # print(sid)
+        studentList = Child.objects.filter(child_school__id=sid)
+        # print(studentList)
+        students = serializers.serialize('json', studentList)
+        response['message'] = 'successful'
+        response['data'] = students
+    except Exception as e:
+        response['status'] = False
+        response['message'] = 'error'
+    return JsonResponse(response)
 
 
 def addchild(request):
@@ -191,6 +208,7 @@ def addchild(request):
         fn = request.POST.get('firstname')
         ln = request.POST.get('lastname')
         sc = request.POST.get('school')
+        print(fn, ln, sc)
         # print(request.POST.get('isactive'))
         if Child.objects.filter(child_firstname=fn, child_lastname=ln, child_school__school_name=sc):
             response['message'] = "Child's info already exist"
@@ -198,8 +216,8 @@ def addchild(request):
             # print('exist')
         else:
             School.objects.update_or_create(school_name=sc)
-            new = Child(child_firstname=fn, child_lastname=ln,
-                        child_school__school_name=sc, is_active=True, on_trip=False, is_check=False)
+            new = Child(child_firstname=fn, child_lastname=ln, child_school=School.objects.get(
+                school_name=sc), is_active=True, on_trip=False, is_check=False)
             new.save()
             response['message'] = 'ok'
             # print('save successful')
@@ -242,7 +260,7 @@ def tripdriver(request):
             driver_firstname=firstname), is_active=True, is_check=False).order_by('trip_name')
         for trip in tripList:
             trip.trip_school = json.loads(trip.trip_school)
-        return render(request, 'cornerstone/trip_driver.html', {'triplist': tripList})
+        return render(request, 'cornerstone/trip_driver.html', {'triplist': tripList, 'drivername': firstname})
     else:
         return render(request, 'cornerstone/404.html')
 
@@ -563,17 +581,19 @@ def archivedtrip(request):
                 student = request.GET.get('studentname')
                 key['Start_time'] = start
                 key['End_time'] = end
-                key['Student_name'] = student
                 startTime = datetime.date(
                     int(start.split('-')[0]), int(start.split('-')[1]), int(start.split('-')[2]))
                 endTime = datetime.date(int(end.split(
                     '-')[0]), int(end.split('-')[1]), int(end.split('-')[2])) + datetime.timedelta(days=1)
                 if student:
+                    key['Student_name'] = student
                     if len(student.split()) > 1:
                         tripList1 = Trip.objects.filter(Q(trip_kids__child_firstname__icontains=student.split()[0]), Q(
                             trip_kids__child_lastname__icontains=student.split()[1]), date_changed__range=(startTime, endTime), is_active=False)
-                        tripList2 = Trip.objects.filter(Q(absent_kids__icontains=student.split()[0]), Q(absent_kids__icontains=student.split()[1]), date_changed__range=(startTime, endTime), is_active=False)
+                        tripList2 = Trip.objects.filter(Q(absent_kids__icontains=student.split()[0]), Q(
+                            absent_kids__icontains=student.split()[1]), date_changed__range=(startTime, endTime), is_active=False)
                         tripList = chain(tripList1, tripList2)
+                        leng = len(tripList1) + len(tripList2)
                         # print(tripList1)
                         # print(tripList2)
                     else:
@@ -582,11 +602,13 @@ def archivedtrip(request):
                         tripList2 = Trip.objects.filter(absent_kids__icontains=student, date_changed__range=(
                             startTime, endTime), is_active=False)
                         tripList = chain(tripList1, tripList2)
+                        leng = len(tripList1) + len(tripList2)
                         # print(tripList)
                 else:
                     tripList = Trip.objects.filter(
                         date_changed__range=(startTime, endTime), is_active=False)
-                return render(request, 'cornerstone/archived_trip.html', {'triplist': tripList, 'key': key})
+                    leng = len(tripList)
+                return render(request, 'cornerstone/archived_trip.html', {'triplist': tripList, 'key': key, 'leng': leng})
             except Exception as e:
                 return HttpResponse('error')
         else:

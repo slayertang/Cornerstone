@@ -12,6 +12,7 @@ urlpatterns = [
     path('quit/', views.quit, name='quit'),
     path('children/', views.childinfo, name='childinfo'),
     path('schoolinfo/', views.schoolinfo, name='schoolinfo'),
+    path('studentinschool/', views.studentinschool, name='studentinschool'),
     path('trip-staff/', views.tripstaff, name='tripstaff'),
     path('trip-driver/', views.tripdriver, name='tripdriver'),
     path('addchild/', views.addchild, name='addchild'),

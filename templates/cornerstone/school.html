@@ -1,29 +1,33 @@
 {% extends "cornerstone/base.html" %}{% load static from staticfiles %} {% block title %} School Info{% endblock title %} {% block linkscript %}
-<link rel="stylesheet" href="{%static 'base/css/school.css'%}"> {% endblock linkscript %} {% block main %}
-<div class="container" style="padding: 6rem">
+<link rel="stylesheet" href="{%static 'base/css/school.css'%}">
+<script src="{%static 'base/js/school.js'%}"></script>
+{% endblock linkscript %} {% block main %}
+<div class="container">
     <div class="">
         <h2 class="text-success">School List</h2>
-        <br><br>
+        <hr>
     </div>
     <div class="">
         <table class="table table-hover">
             <thead>
-                <tr>
-                    <th bgcolor='#FFD54F'>No.</th>
-                    <th bgcolor='#FFD54F'>ID</th>
-                    <th bgcolor='#FFD54F'>School</th>
-                    <th bgcolor='#FFD54F'>Students</th>
-                    <th bgcolor='#FFD54F'>Pickup Time</th>
+                <tr class="info">
+                    <th>No.</th>
+                    <th>ID</th>
+                    <th>School(students)</th>
+                    <th>Counts</th>
+                    <th>Pickup Time</th>
                 </tr>
             </thead>
             <tbody id="tb">
                 {% for row in schoollist %}
-                <tr id='{{row.id}}'>
-                    <td bgcolor='#FFD54F'>{{ forloop.counter }}</td>
-                    <td na='nid' bgcolor='#FFF59D'>{{row.id}}</td>
-                    <td na='name' bgcolor='#FFF59D'>{{row.school_name}}</td>
-                    <td na='counter' class="text-primary" bgcolor='#FFF59D'>{{row.num}}</td>
-                    <td na='pickuptime' bgcolor='#FFF59D'>{{row.pickup_time}}</td>
+                <tr id='{{row.id}}' class="active">
+                    <td>{{ forloop.counter }}</td>
+                    <td na='nid'>{{row.id}}</td>
+                    <td na='school'><a class="text-info schoolname" href="javascript:;">{{row.school_name}}</a><br>
+                        <p hidden class="student" nid='11'></p>
+                    </td>
+                    <td na='counter' class="text-primary"><span class="badge" style="background-color:rgb(66, 129, 248);">{{row.num}}</span></td>
+                    <td na='pickuptime'>{{row.pickup_time}}</td>
                 </tr>
                 {% endfor %}
             </tbody>

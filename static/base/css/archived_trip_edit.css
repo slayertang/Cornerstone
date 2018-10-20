@@ -7,3 +7,11 @@
     vertical-align: middle;
     text-align: center;
 }
+
+.content {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+body {
+    background-image: url(/static/base/img/main.jpg);
+}

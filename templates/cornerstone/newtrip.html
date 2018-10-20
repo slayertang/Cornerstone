@@ -6,7 +6,7 @@
 <script src="{%static 'base/js/bootstrap-select.min.js'%}"></script>
 <script src="{%static 'base/js/newtrip.js'%}"></script>
 {% endblock linkscript %} {% block main %}
-<div>
+<div class="container">
     <div class="panel panel-primary" id="tip">
         <div class="panel-heading"><b>School Selecting</b></div>
         <div class="panel-body" id="tips">
@@ -16,16 +16,16 @@
         </div>
     </div>
 </div>
-<div class="container" style="padding: 6rem;">
+<div class="container">
     <div>
         <h2 class="text-success">New Trip for:&nbsp;&nbsp;<small id="date" class="text-primary">{{date}}</small></h2>
         <hr>
     </div>
     <div class="row">
         <div class="col-sm-8 col-sm-offset-2">
-            <table class="table table-condensed table-bordered">
+            <table class="table table-bordered">
                 <thead>
-                    <tr>
+                    <tr class="info">
                         <th>ID</th>
                         <th>School Name</th>
                         <th>Pickup Time</th>
@@ -35,7 +35,7 @@
                 </thead>
                 <tbody id="tb">
                     {% for row in schoollist %}
-                    <tr id='{{row.id}}'>
+                    <tr id='{{row.id}}' class="active">
                         <td na='nid'>{{row.id}}</td>
                         <td na='name'>{{row.school_name}}</td>
                         <td na='pickuptime'>{{row.pickup_time}}</td>
@@ -46,7 +46,7 @@
                         </td>
                     </tr>
                     {% empty %}
-                    <p class="text-danger">Seems all schools got their own trips.</p>
+                    <p class="text-danger">Seems no students available today.</p>
                     {% endfor %}
                 </tbody>
             </table>
@@ -96,10 +96,12 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-sm-4 col-sm-offset-4">
-        <button id="create" type="button" class="btn btn-primary btn-block">Create</button>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-4">
+            <button id="create" type="button" class="btn btn-primary btn-block">Create</button>
+            <br><br>
+        </div>
     </div>
-</div>
 </div>
 {% endblock main %}

@@ -2,6 +2,7 @@ $(document).ready(function() {
     displayOptions();
     tips();
     submit();
+    setFooter();
     $("#datetimepicker1").datetimepicker({
         format: "yyyy-mm-dd",
         minView: "month",
@@ -39,7 +40,7 @@ function tips() {
             // 添加前先判断是否有class值为该学校id的p标签，若有，先删除再添加;
             $('#tips p').remove('.' + sid);
             if (Number(num) > 0) {
-                $('#' + sid).addClass('info')
+                $('#' + sid).addClass('danger')
                 $('#tips').append("<p class='text-danger " + sid + "'" + "sid=" + sid + ">" + sname + ": " + num + "</p>");
             } else {
                 $('#' + sid).removeClass();
@@ -124,4 +125,22 @@ function submit() {
             }
         }
     });
+};
+
+
+
+function setFooter() {
+    var browserH = $(window).height();
+    var h = $('.content').height();
+    var topH = $('.content').offset().top;
+    var scroll = $(document).scrollTop();
+    var footer = $('.footer').height();
+    // console.log(browserH);
+    // console.log(h);
+    // console.log(topH);
+    // console.log(scroll);
+    // console.log(footer);
+    var bottomD = browserH - (h + topH - scroll) - footer - 60;
+    console.log(bottomD);
+    $('.content').css('padding-bottom', bottomD);
 };

@@ -1,4 +1,21 @@
-$(function() {
+$(document).ready(function() {
+    setFooter()
+
+    function setFooter() {
+        var browserH = $(window).height();
+        var h = $('.content').height();
+        var topH = $('.content').offset().top;
+        var scroll = $(document).scrollTop();
+        var footer = $('.footer').height();
+        // console.log(browserH);
+        // console.log(h);
+        // console.log(topH);
+        // console.log(scroll);
+        // console.log(footer);
+        var bottomD = browserH - (h + topH - scroll) - footer - 60;
+        console.log(bottomD);
+        $('.content').css('padding-bottom', bottomD);
+    };
     $('#id_captcha_1').blur(function() {
         // #id_captcha_1为输入框的id，当该输入框失去焦点时触发函数
         json_data = {

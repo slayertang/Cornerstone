@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    setFooter();
+    setFooter()
 
     function setFooter() {
         var browserH = $(window).height();
@@ -16,4 +16,5 @@ $(document).ready(function() {
         console.log(bottomD);
         $('.content').css('padding-bottom', bottomD);
     };
-})
+
+});

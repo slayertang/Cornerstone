@@ -1,14 +1,27 @@
-{% extends "cornerstone/base.html" %}{% load static from staticfiles %}{% block title %} Index {% endblock title %} {% block linkscript %} {% endblock linkscript %} {% block main %}
-<div style="padding-top: 5rem; text-align:center;">
-    <div class="jumbotron">
-        {% if request.session.islogin %}
-        <h2>Hello, <span class="text-primary">{{request.session.name}} </span></h2>
-        <h1>Welcome Back!</h1>
-        {% else %}
-        <h1>Hello, Welcome!</h1>
-        <p>please login</p>
-        <p><a class="btn btn-primary btn-lg" href="/login/" role="button">&nbsp;Login&nbsp;</a></p>
-        {% endif %}
+{% extends "cornerstone/base.html" %}{% load static from staticfiles %}{% block title %} Index {% endblock title %} {% block linkscript %}
+<link rel="stylesheet" href="{%static 'base/css/index.css'%}">
+<script src="{%static 'base/js/index.js'%}"></script>
+{% endblock linkscript %} {% block main %}
+<div class="container">
+    <div class="row">
+        <!-- <div class="col-sm-3 about">
+            <br>
+            <p>ABOUT US </p>
+            <p>content</p>
+            <br>
+        </div> -->
+        <div class="col-sm-6 col-sm-offset-5 welcome">
+            <br><br> {% if request.session.islogin %}
+            <h2>Hello, <span class="text-primary">{{request.session.name}} </span></h2>
+            <h1>Welcome Back!</h1>
+            {% else %}
+            <h1>Hello, Welcome to Cornerstone!</h1>
+            <a href="/login/">
+                <h4 class="btn btn-primary">&nbsp;&nbsp; LOGIN &nbsp;&nbsp;</h4>
+            </a>
+            </p>
+            {% endif %}
+        </div>
     </div>
 </div>
 <br><br><br> {% endblock main %}

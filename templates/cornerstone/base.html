@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="SHORTCUT ICON" href="{% static 'base/img/favicon.ico' %}">
+    <link rel="SHORTCUT ICON" href="{%static 'base/img/favicon.ico'%}">
     <title>{% block title %} base {% endblock title %}</title>
     <link rel="stylesheet" href="{%static 'base/css/bootstrap.min.css'%}">
     <link rel="stylesheet" href="{%static 'base/css/base.css'%}">
@@ -20,93 +20,93 @@
 </head>
 
 <body>
-    <header>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#my-nav" aria-expanded="false">
+    <div class="body">
+        <div class="content">
+            <header>
+                <nav class="navbar navbar-inverse navbar-fixed-top">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#my-nav" aria-expanded="false">
                         <span class="sr-only">change nav</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="/index/">Welcome to Cornerstone</a>
-                </div>
-                <div class="collapse navbar-collapse" id="my-nav">
-                    <ul class="nav navbar-nav">
-                        <li class="active">
-                            <a href="/index/">Home</a>
-                        </li>
-                        {% if request.session.islogin %}
-                        <li>
-                            <a href="#">Online:&nbsp;{{request.session.name}}</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        {% if request.session.islogin %} {% if request.session.isstaff == 1 %}
-                        <li>
-                            <a href="/trip-staff/">Manage Trips</a>
-                        </li>
-                        <li>
-                            <a href="/archivedtrip/">Archived Trips</a>
-                        </li>
-                        <li>
-                            <a href="/upload/">Upload</a>
-                        </li>
-                        <li>
-                            <a href="/children/">Students</a>
-                        </li>
-                        <li>
-                            <a href="/schoolinfo/">School</a>
-                        </li>
-                        <li>
-                            <a href="/reportview/">Report</a>
-                        </li>
-                        <li>
-                            <a href="/admin/">Manage accounts</a>
-                        </li>
-                        {% else %}
-                        <li>
-                            <a href="/trip-driver/">My Trip</a>
-                        </li>
-                        {% endif %}
+                            <a class="navbar-brand" href="/index/">Welcome to Cornerstone</a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="my-nav">
+                            <ul class="nav navbar-nav">
+                                <li class="active">
+                                    <a href="/index/">Home</a>
+                                </li>
+                                {% if request.session.islogin %}
+                                <li>
+                                    <a href="#">Online:&nbsp;{{request.session.name}}</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                {% if request.session.islogin %} {% if request.session.isstaff == 1 %}
+                                <li>
+                                    <a href="/trip-staff/">Manage Trips</a>
+                                </li>
+                                <li>
+                                    <a href="/archivedtrip/">Archived Trips</a>
+                                </li>
+                                <li>
+                                    <a href="/upload/">Upload</a>
+                                </li>
+                                <li>
+                                    <a href="/children/">Students</a>
+                                </li>
+                                <li>
+                                    <a href="/schoolinfo/">School</a>
+                                </li>
+                                <li>
+                                    <a href="/reportview/">Report</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/">Manage accounts</a>
+                                </li>
+                                {% else %}
+                                <li>
+                                    <a href="/trip-driver/">My Trip</a>
+                                </li>
+                                {% endif %}
 
-                        <li>
-                            <a href="/quit/">Logout</a>
-                        </li>
-                        {% else %}
-                        <li>
-                            <a href="/login/">Login</a>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
+                                <li>
+                                    <a href="/quit/">Logout</a>
+                                </li>
+                                {% else %}
+                                <li>
+                                    <a href="/login/">Login</a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        <!-- /.navbar-collapse -->
+                    </div>
+                    <!-- /.container-fluid -->
+                </nav>
+            </header>
+            <div class="">
+                {% block main %} {% endblock main %}
             </div>
-            <!-- /.container-fluid -->
-        </nav>
-    </header>
-    <div>
-        {% block main %} {% endblock main %}
-    </div>
-    <div>
-        <h3>
-            <hr>
-            <p class="text-danger text-center">This is a test webpage!</p>
-        </h3>
-    </div>
-    <footer class="footer">
-        <div class="container">
-            <address>
-                <strong>&copy;&nbsp;Cornerstone New Life Church</strong>
-                <br>
-                <strong>Address:</strong>&nbsp; 1 Tay St, Invercargill, 9810
-                <br>
-                <strong>Email:</strong>&nbsp; care@cornerstonenewlife.org
-            </address>
         </div>
-    </footer>
+        <div class="footer">
+            <div class="address">
+                <!-- <h4 class="text-info">Contact us</h4> -->
+                <!-- <strong>Address:</strong>&nbsp; -->
+                <span>1 Tay St, Invercargill, 9810</span>
+                <br>
+                <!-- <strong>Email:</strong>&nbsp; -->
+                <span> care@cornerstonenewlife.org</span>
+            </div>
+            <div id="copy">
+                <strong>&copy;&nbsp;2018 Cornerstone New Life Church</strong>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

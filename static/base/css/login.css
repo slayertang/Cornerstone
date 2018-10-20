@@ -2,7 +2,6 @@
 
 .container {
     display: table;
-    padding-top: 6rem;
     height: 100%;
 }
 
@@ -23,4 +22,8 @@
     float: none;
     text-align: left;
     margin-right: -4px;
+}
+
+body {
+    background-image: url(/static/base/img/bg1.jpg);
 }

@@ -5,7 +5,7 @@
     <div class="col-xs-12 col-sm-8 col-md-4 col-md-offset-4 col-sm-offset-2">
         <form action="/login/" method="POST" role="form" enctype="multipart/form-data">
             {% csrf_token %}
-            <h3>Please Login</h3>
+            <h3 class="text-primary">User Login</h3>
             <p class="text-danger" id="message">{{message}}</p>
             <div class="input-group input-group-md">
                 <span class="input-group-addon" id="sizing-addon1">
@@ -26,7 +26,7 @@
             <span id="ok" style="display:none" class="text-primary">Correct!</span>
             <span id="remove" style="display:none" class="text-danger">Incorrect!</span>
             <br>
-            <button id="login" type="submit" class="btn btn-success pull-right">Login</button>
+            <button id="login" type="submit" class="btn btn-primary pull-right">Login</button>
             <button type="reset" class="btn btn-default puul-left ">Reset</button>
             <hr>
         </form>

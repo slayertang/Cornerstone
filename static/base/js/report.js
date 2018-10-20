@@ -1,4 +1,21 @@
 $(document).ready(function() {
+    setFooter();
+
+    function setFooter() {
+        var browserH = $(window).height();
+        var h = $('.content').height();
+        var topH = $('.content').offset().top;
+        var scroll = $(document).scrollTop();
+        var footer = $('.footer').height();
+        // console.log(browserH);
+        // console.log(h);
+        // console.log(topH);
+        // console.log(scroll);
+        // console.log(footer);
+        var bottomD = browserH - (h + topH - scroll) - footer - 60;
+        // console.log(bottomD);
+        $('.content').css('padding-bottom', bottomD);
+    };
     // 限制时间选择，结束日期不能小于开始日期。
     $("#datetimepicker1").datetimepicker({
         format: "yyyy-mm-dd",
@@ -59,17 +76,17 @@ $(document).ready(function() {
                                     school += k + "(" + s[k] + "), ";
                                 }
                                 $('#tb').append(
-                                    "<tr id=" + trips[i - 1].pk + "></tr>" +
+                                    "<tr id=" + trips[i - 1].pk + " class='active'>" +
                                     "<td bgcolor='#80DEEA'>" + i + "</td>" +
                                     "<td na='nid' name='tripid'>" + trips[i - 1].pk + "</td>" +
                                     "<td na='tripname'>" + trips[i - 1].fields.trip_name + "</td>" +
                                     "<td na='school'>" + school + "</td>" +
                                     "<td na='lastchanged'>" + t + "</td>" +
-                                    "<td na='tripstatus'><span class='text-danger'><b>Archived</b></span></td>"
+                                    "<td na='tripstatus'><span class='text-danger'><b>Archived</b></span></td></tr>"
                                 );
                                 total = i;
                             }
-                            $('#note').append("<span class='text-info'>Found <span class='text-danger'>" + total + "</span> items.</span>");
+                            $('#note').append("<span class='text-primary'>Found <span class='text-danger'>" + total + "</span> items.</span>");
                             $('#downloaddiv').show();
                         } else {
                             $.alert({
@@ -99,5 +116,5 @@ $(document).ready(function() {
                 window.location.href = url;
             }
         });
-    }
+    };
 })
