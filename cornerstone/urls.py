@@ -37,5 +37,6 @@ urlpatterns = [
     path('reportview/', views.reportview, name='reportview'),
     path('reportsearch/', views.reportsearch, name='reportsearch'),
     path('download/', views.download, name='download'),
+    path('downloadeach/<str:tripid>/', views.downloadeach, name='downloadeach'),
 ]
 app_name = 'cornerstone'

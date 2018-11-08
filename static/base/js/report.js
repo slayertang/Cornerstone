@@ -63,31 +63,38 @@ $(document).ready(function() {
                         if (arg.status) {
                             // console.log(arg.data);
                             trips = JSON.parse(arg.data);
-                            $('#tb').empty();
-                            $('#note').empty();
-                            // console.log(trips);
-                            // json化之后的trips是一个Array数组，遍历数组，fields属性中包含所有查询内容，pk为每条结果的主键字段。
-                            var total = 0;
-                            for (var i = 1; i <= trips.length; i++) {
-                                var t = trips[i - 1].fields.date_changed.split('.')[0].replace('T', ' ');
-                                var s = JSON.parse(trips[i - 1].fields.trip_school);
-                                var school = '';
-                                for (k in s) {
-                                    school += k + "(" + s[k] + "), ";
+                            if (trips.length > 0) {
+                                $('#tb').empty();
+                                $('#note').empty();
+                                // console.log(trips);
+                                // json化之后的trips是一个Array数组，遍历数组，fields属性中包含所有查询内容，pk为每条结果的主键字段。
+                                var total = 0;
+                                for (var i = 1; i <= trips.length; i++) {
+                                    var t = trips[i - 1].fields.date_changed.split('.')[0].replace('T', ' ');
+                                    var s = JSON.parse(trips[i - 1].fields.trip_school);
+                                    var school = '';
+                                    for (k in s) {
+                                        school += k + "(" + s[k] + "), ";
+                                    }
+                                    $('#tb').append(
+                                        "<tr id=" + trips[i - 1].pk + " class='active'>" +
+                                        "<td bgcolor='#80DEEA'>" + i + "</td>" +
+                                        "<td na='nid' name='tripid'>" + trips[i - 1].pk + "</td>" +
+                                        "<td na='tripname'>" + trips[i - 1].fields.trip_name + "</td>" +
+                                        "<td na='school'>" + school + "</td>" +
+                                        "<td na='lastchanged'>" + t + "</td>" +
+                                        "<td na='tripstatus'><a href='/downloadeach/" + trips[i - 1].pk + "/' class='fa fa-download downloadeach' aria-hidden='true'></a></td></tr>"
+                                    );
+                                    total = i;
                                 }
-                                $('#tb').append(
-                                    "<tr id=" + trips[i - 1].pk + " class='active'>" +
-                                    "<td bgcolor='#80DEEA'>" + i + "</td>" +
-                                    "<td na='nid' name='tripid'>" + trips[i - 1].pk + "</td>" +
-                                    "<td na='tripname'>" + trips[i - 1].fields.trip_name + "</td>" +
-                                    "<td na='school'>" + school + "</td>" +
-                                    "<td na='lastchanged'>" + t + "</td>" +
-                                    "<td na='tripstatus'><span class='text-danger'><b>Archived</b></span></td></tr>"
-                                );
-                                total = i;
+                                $('#note').append("<span class='text-primary'>Found <span class='text-danger'>" + total + "</span> items.</span>");
+                                $('#downloaddiv').show();
+                            } else {
+                                $('#tb').empty();
+                                $('#note').empty();
+                                $('#note').append("<span class='text-primary'>Found <span class='text-danger'> 0 </span> items.</span>");
+                                $('#downloaddiv').hide();
                             }
-                            $('#note').append("<span class='text-primary'>Found <span class='text-danger'>" + total + "</span> items.</span>");
-                            $('#downloaddiv').show();
                         } else {
                             $.alert({
                                 title: 'Request failure!',
@@ -112,7 +119,7 @@ $(document).ready(function() {
             endtime = $('#end').val();
             if (starttime && endtime) {
                 url = "/download/" + "?start=" + starttime + "&end=" + endtime;
-                console.log(url);
+                // console.log(url);
                 window.location.href = url;
             }
         });

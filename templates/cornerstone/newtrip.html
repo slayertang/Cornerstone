@@ -23,6 +23,7 @@
     </div>
     <div class="row">
         <div class="col-sm-8 col-sm-offset-2">
+            <label class="text-success">Select Schools<span class="text-danger"> *(required)</span></label><br>
             <table class="table table-bordered">
                 <thead>
                     <tr class="info">
@@ -69,7 +70,7 @@
             </div>
         </div> -->
         <div class="col-sm-3 col-sm-offset-2">
-            <label class="text-success">Select Bus<span class="text-danger">*</span></label> <br>
+            <label class="text-success">Select Bus<span class="text-danger"> *(required)</span></label> <br>
             <div class="form-group">
                 <select id="bus" class="selectpicker" data-width="100%" title="Bus Number">
                     {% for bus in buslist %}
@@ -82,7 +83,7 @@
             </div>
         </div>
         <div class="col-sm-3 col-sm-offset-1">
-            <label class="text-success">Select Driver<span class="text-danger">*</span></label> <br>
+            <label class="text-success">Select Driver<span class="text-danger"> *(required)</span></label> <br>
             <div class="form-group">
                 <select id="driver" class="selectpicker" data-width="100%" title="Driver Name">
                     {% for driver in driverlist %}

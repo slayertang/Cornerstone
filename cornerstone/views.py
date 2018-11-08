@@ -27,10 +27,8 @@ def index(request):
 def officer(request):
     if request.session.get('isstaff', None):
         if request.session.get('isstaff') == 1:
-            # print(111111)
             return render(request, 'cornerstone/upload.html')
     else:
-        # print(222222)
         return render(request, 'cornerstone/404.html')
 
 
@@ -44,19 +42,18 @@ def login(request):
     if request.method == 'POST':
         login_form = StaffForm(request.POST)
         message = 'Please check your input!'
-        # print('111111')
         if login_form.is_valid():
             username = login_form.cleaned_data['username']
             passwd = login_form.cleaned_data['password']
             user = authenticate(username=username, password=passwd)
             if user is None:
-                # print('2222222')
                 message = 'Incorrect username or password!'
                 return render(request, 'cornerstone/login.html', {'message': message, 'login_form': login_form})
             else:
                 userinfo = User.objects.get(username=username)
                 token = str(time.time() + random.randrange(1, 10000))
                 request.session['islogin'] = True
+                request.session['id'] = userinfo.id
                 request.session['name'] = userinfo.username
                 request.session['token'] = token
                 request.session['isstaff'] = userinfo.is_staff
@@ -69,11 +66,9 @@ def login(request):
                 # print('33333333')
                 return redirect('/index/')
         else:
-            # print('44444444')
             return render(request, 'cornerstone/login.html', {'message': message, 'login_form': login_form})
     else:
         login_form = StaffForm()
-        # print('5555555')
         return render(request, 'cornerstone/login.html', {'login_form': login_form})
 
 
@@ -167,7 +162,8 @@ def ajax_val(request):
 def childinfo(request):
     if request.session.get('isstaff', None):
         if request.session.get('isstaff') == 1:
-            childList = Child.objects.filter(is_delete=False)
+            childList = Child.objects.filter(
+                is_delete=False).order_by('child_school')
             return render(request, 'cornerstone/children.html', {'child_list': childList})
         else:
             return render(request, 'cornerstone/404.html')
@@ -255,12 +251,14 @@ def tripstaff(request):
 
 def tripdriver(request):
     if request.session.get('islogin', None) and not request.session.get('isstaff', None):
-        firstname = request.session.get('firstname')
-        tripList = Trip.objects.filter(trip_driver=Driver.objects.get(
-            driver_firstname=firstname), is_active=True, is_check=False).order_by('trip_name')
+        name = request.session['name']
+        id = request.session.get('id')
+        did = Driver.objects.get(driver_user=int(id))
+        tripList = Trip.objects.filter(
+            trip_driver=did, is_active=True, is_check=False).order_by('trip_name')
         for trip in tripList:
             trip.trip_school = json.loads(trip.trip_school)
-        return render(request, 'cornerstone/trip_driver.html', {'triplist': tripList, 'drivername': firstname})
+        return render(request, 'cornerstone/trip_driver.html', {'triplist': tripList, 'drivername': name})
     else:
         return render(request, 'cornerstone/404.html')
 
@@ -310,7 +308,7 @@ def tripsave(request):
                     sname = School.objects.get(pk=int(sid)).school_name
                     schoolDict[sname] = request.POST.get(sid)
                     childList = School.objects.get(
-                        pk=int(sid)).child_set.filter(on_trip=False, is_active=True, is_check=False)[:snum]
+                        pk=int(sid)).child_set.filter(on_trip=False, is_active=True, is_check=False, is_delete=False)[:snum]
                     for child in childList:
                         child.on_trip = True
                         child.save()
@@ -361,7 +359,7 @@ def deltrip(request):
                     for k in schoolJson:
                         num = int(schoolJson[k])
                         childList = School.objects.get(
-                            school_name=k).child_set.filter(on_trip=True, is_check=False, is_active=True)[:num]
+                            school_name=k).child_set.filter(on_trip=True, is_check=False, is_active=True, is_delete=False)[:num]
                         for child in childList:
                             child.on_trip = False
                             child.save()
@@ -765,7 +763,7 @@ def download(request):
             writer.writerow(['Cornerstone Care - After School'])
             writer.writerow(['Attendance for ' + start + '_' + end])
             timeList = ['']
-            weekList = ['']
+            weekList = ['Student Name']
             weekdayList = ['Monday', 'Tuesday', 'Wednesday',
                            'Thursday', 'Friday', 'Saturday', 'Sunday']
             for x in range((endTime - startTime).days + 1):
@@ -790,6 +788,44 @@ def download(request):
                         kidList.append('')
                     # elif Trip.objects.filter(Q(absent_kids__contains=str(kid.id)), Q(absent_kids__contains=kid.child_firstname), Q(absent_kids__contains=kid.child_lastname), Q(absent_kids__contains=kid.child_school.school_name),
                     # date_changed__contains=day, is_active=False):
+                writer.writerow(kidList)
+            return response
+        except Exception as e:
+            return HttpResponse('error')
+    else:
+        return render(request, 'cornerstone/404.html')
+
+
+def downloadeach(request, tripid):
+    if request.session.get('isstaff', None):
+        tid = int(tripid)
+        try:
+            trip = Trip.objects.get(pk=tid)
+            filename = 'Attendance for ' + trip.trip_name + '.csv'
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = "attachment; filename=" + filename
+            writer = csv.writer(response)
+            writer.writerow(['Cornerstone Care - After School'])
+            writer.writerow(['Attendance for ' + trip.trip_name])
+            timeStr = trip.trip_name.split('-')
+            time = datetime.date(int(timeStr[0]), int(
+                timeStr[1]), int(timeStr[2]))
+            timeList = ['']
+            weekList = ['Student Name']
+            weekdayList = ['Monday', 'Tuesday', 'Wednesday',
+                           'Thursday', 'Friday', 'Saturday', 'Sunday']
+            timeList.append(time)
+            weekList.append(weekdayList[time.weekday()])
+            writer.writerow(timeList)
+            writer.writerow(weekList)
+            studentList = Child.objects.all()
+            for kid in studentList:
+                kidList = []
+                kidList.append(kid.child_firstname+' '+kid.child_lastname)
+                if Trip.objects.filter(trip_kids__pk=kid.id, is_active=False):
+                    kidList.append('Y')
+                else:
+                    kidList.append('')
                 writer.writerow(kidList)
             return response
         except Exception as e:

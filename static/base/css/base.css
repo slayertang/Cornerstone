@@ -16,18 +16,14 @@ body {
 
 .footer {
     position: relative;
-    background: rgba(27, 27, 27, 0.7);
+    background: rgba(27, 27, 27, 1);
     padding-bottom: 5px;
 }
 
 .address {
     padding-left: 50px;
-    padding-top: 10px;
-    color: whitesmoke;
-}
-
-#copy {
-    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
     color: whitesmoke;
 }
 

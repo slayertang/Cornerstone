@@ -48,19 +48,19 @@
                             <ul class="nav navbar-nav navbar-right">
                                 {% if request.session.islogin %} {% if request.session.isstaff == 1 %}
                                 <li>
+                                    <a href="/upload/">Upload</a>
+                                </li>
+                                <li>
+                                    <a href="/children/">Student</a>
+                                </li>
+                                <li>
+                                    <a href="/schoolinfo/">School</a>
+                                </li>
+                                <li>
                                     <a href="/trip-staff/">Manage Trips</a>
                                 </li>
                                 <li>
                                     <a href="/archivedtrip/">Archived Trips</a>
-                                </li>
-                                <li>
-                                    <a href="/upload/">Upload</a>
-                                </li>
-                                <li>
-                                    <a href="/children/">Students</a>
-                                </li>
-                                <li>
-                                    <a href="/schoolinfo/">School</a>
                                 </li>
                                 <li>
                                     <a href="/reportview/">Report</a>
@@ -95,15 +95,12 @@
         </div>
         <div class="footer">
             <div class="address">
-                <!-- <h4 class="text-info">Contact us</h4> -->
-                <!-- <strong>Address:</strong>&nbsp; -->
-                <span>1 Tay St, Invercargill, 9810</span>
-                <br>
-                <!-- <strong>Email:</strong>&nbsp; -->
-                <span> care@cornerstonenewlife.org</span>
-            </div>
-            <div id="copy">
-                <strong>&copy;&nbsp;2018 Cornerstone New Life Church</strong>
+                <div>
+                    <strong>Contact us: </strong>&nbsp;<span>1 Tay St, Invercargill, 9810</span>&nbsp;&nbsp;&nbsp;&nbsp;<span> care@cornerstonenewlife.org</span>
+                </div>
+                <div style="text-align:center;">
+                    <span>&copy;&nbsp;2018 Cornerstone New Life Church</span>
+                </div>
             </div>
         </div>
     </div>

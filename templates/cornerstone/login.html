@@ -2,10 +2,11 @@
 <link rel="stylesheet" href="{%static 'base/css/login.css'%}">
 <script src="{%static 'base/js/login.js'%}"></script> {% endblock linkscript %} {% block main %}
 <div class="container">
+    <br><br><br>
     <div class="col-xs-12 col-sm-8 col-md-4 col-md-offset-4 col-sm-offset-2">
         <form action="/login/" method="POST" role="form" enctype="multipart/form-data">
             {% csrf_token %}
-            <h3 class="text-primary">User Login</h3>
+            <h3 style="color:whitesmoke;">User Login</h3>
             <p class="text-danger" id="message">{{message}}</p>
             <div class="input-group input-group-md">
                 <span class="input-group-addon" id="sizing-addon1">
@@ -23,8 +24,8 @@
             <br>{{login_form.captcha}}
             <br>
             <br id="br">
-            <span id="ok" style="display:none" class="text-primary">Correct!</span>
-            <span id="remove" style="display:none" class="text-danger">Incorrect!</span>
+            <span id="ok" style="display:none; color:whitesmoke">Correct!</span>
+            <span id="remove" style="display:none; color:rgb(109, 195, 245)">Incorrect!</span>
             <br>
             <button id="login" type="submit" class="btn btn-primary pull-right">Login</button>
             <button type="reset" class="btn btn-default puul-left ">Reset</button>

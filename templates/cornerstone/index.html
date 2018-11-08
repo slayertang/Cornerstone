@@ -11,8 +11,8 @@
             <br>
         </div> -->
         <div class="col-sm-6 col-sm-offset-5 welcome">
-            <br><br> {% if request.session.islogin %}
-            <h2>Hello, <span class="text-primary">{{request.session.name}} </span></h2>
+            <br><br><br><br> {% if request.session.islogin %}
+            <h2>Hello, <span style="color:whitesmoke">{{request.session.name}} </span></h2>
             <h1>Welcome Back!</h1>
             {% else %}
             <h1>Hello, Welcome to Cornerstone!</h1>

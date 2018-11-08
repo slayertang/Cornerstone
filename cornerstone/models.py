@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 # Create your models here.
 
@@ -22,7 +23,7 @@ class School(models.Model):
 class Child(models.Model):
     child_firstname = models.CharField(max_length=64)
     child_lastname = models.CharField(max_length=64)
-    child_school = models.ForeignKey('School', on_delete=models.CASCADE)
+    child_school = models.ForeignKey('School', on_delete=models.PROTECT)
     # is_active for staff check
     is_active = models.BooleanField(default=True)
     date_changed = models.DateTimeField(auto_now=True)
@@ -47,6 +48,8 @@ class Driver(models.Model):
     genderoptions = ((1, 'Male'), (2, 'Female'), (3, 'others'))
     gender = models.IntegerField(choices=genderoptions)
     phone = models.CharField(max_length=64, unique=True)
+    # driver_user = models.ForeignKey(StaffUser, unique=True, on_delete=models.PROTECT)
+    driver_user = models.ForeignKey(settings.AUTH_USER_MODEL, unique=True, on_delete=models.PROTECT)
     description = models.CharField(max_length=255, blank=True, null=True)
     date_changed = models.DateTimeField(auto_now=True)
     date_joined = models.DateTimeField(auto_now_add=True)
@@ -72,8 +75,8 @@ class Bus(models.Model):
 
 class Trip(models.Model):
     trip_name = models.CharField(max_length=64, unique=True)
-    trip_driver = models.ForeignKey('Driver', on_delete=models.CASCADE)
-    trip_bus = models.ForeignKey('Bus', on_delete=models.CASCADE)
+    trip_driver = models.ForeignKey('Driver', on_delete=models.PROTECT)
+    trip_bus = models.ForeignKey('Bus', on_delete=models.PROTECT)
     trip_school = models.CharField(max_length=255)
     trip_kids = models.ManyToManyField(Child, blank=True)
     absent_kids = models.TextField(max_length=512, blank=True)

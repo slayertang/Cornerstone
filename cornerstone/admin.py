@@ -7,6 +7,10 @@ from .models import StaffUser
 # Register your models here.
 
 
+admin.site.site_header = 'Cornerstone management system'
+admin.site.site_title = 'Cornerstone'
+
+
 class StaffUserInLine(admin.StackedInline):
     model = StaffUser
     can_delete = False
@@ -33,6 +37,12 @@ class BusAdmin(admin.ModelAdmin):
 
 @admin.register(Driver)
 class DriverAdmin(admin.ModelAdmin):
+    # only match the driver user.
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'driver_user':
+            kwargs["queryset"] = User.objects.filter(
+                is_superuser=False, is_staff=False, is_active=True)
+        return super(DriverAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
     list_display = ['pk', 'driver_firstname', 'driver_lastname', 'driver_license',
                     'gender', 'phone', 'date_changed', 'date_joined', 'description']
     search_fields = ['driver_firstname']

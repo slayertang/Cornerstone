@@ -32,13 +32,13 @@ $(document).ready(function() {
                 ok.style.display = 'block'
                 remove.style.display = 'none'
                 br.style.display = 'none'
-                document.getElementById('login').disabled = false
+                    // document.getElementById('login').disabled = false
                     // 验证输入正确，提交按钮会被开启
             } else {
                 ok.style.display = 'none'
                 remove.style.display = 'block'
                 br.style.display = 'none'
-                document.getElementById('login').disabled = true
+                    // document.getElementById('login').disabled = true
                     // 验证输入错误，提交按钮会被禁用
             }
         });
